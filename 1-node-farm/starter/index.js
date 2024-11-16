@@ -31,6 +31,9 @@ const url= require("url")
 // });
 ///////////////////////
 // http server
+const data = fs.readFile(`${__dirname}/dev-data/data.json`,'utf-8')
+const dataObj= JSON.parse(data)
+
 const server= http.createServer((req,res)=>{
     const pathName=req.url
 
@@ -38,6 +41,9 @@ const server= http.createServer((req,res)=>{
     res.end('hello world')
 }else if(pathName==='/products'){
     res.end('productss')
+}else if(pathName==='/api'){
+res.writeHead(200,{'content-type':'application/json'})
+res.end(data)
 }else{
     res.writeHead(404,{
         'Content-type':'text/html',
