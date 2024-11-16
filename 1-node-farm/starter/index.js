@@ -1,9 +1,9 @@
 const fs = require("fs");
-const http= require("http")
-const url= require("url")
+const http = require("http");
+const url = require("url");
 
 ///////////////////////////////////////////
-//Files handleing 
+//Files handleing
 
 // Blockin sync way
 // const textFile = fs.readFileSync('./txt/input.txt', 'utf-8')
@@ -31,28 +31,38 @@ const url= require("url")
 // });
 ///////////////////////
 // http server
-const data = fs.readFile(`${__dirname}/dev-data/data.json`,'utf-8')
-const dataObj= JSON.parse(data)
+const tempOverview = fs.readFile(`${__dirname}/templates/template-overview.html`, "utf-8");
+const tempCard = fs.readFile(`${__dirname}/templates/template-.html`, "utf-8");
+const temp = fs.readFile(`${__dirname}/templates/template-.html`, "utf-8");
 
-const server= http.createServer((req,res)=>{
-    const pathName=req.url
+const dataObj = JSON.parse(data);
 
-    if(pathName==='/' ||pathName==='/overview'){
-    res.end('hello world')
-}else if(pathName==='/products'){
-    res.end('productss')
-}else if(pathName==='/api'){
-res.writeHead(200,{'content-type':'application/json'})
-res.end(data)
-}else{
-    res.writeHead(404,{
-        'Content-type':'text/html',
-        'my-own-header':'hello world'
-    })
-    res.end('<h1>page not found</h1>')
-}
 
-})
-server.listen(8000,'127.0.0.1',()=>{
-    console.log('connection made port 8000 ')
-})
+const server = http.createServer((req, res) => {
+    const pathName = req.url;
+    
+    // Overviw page
+  if (pathName === "/" || pathName === "/overview") {
+    res.end("this is the overview");
+
+    //Product page
+  } else if (pathName === "/products") {
+    res.end("productss");
+
+    // API
+  } else if (pathName === "/api") {
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end(data);
+
+    //Not Found
+  } else {
+    res.writeHead(404, {
+      "Content-type": "text/html",
+      "my-own-header": "hello world",
+    });
+    res.end("<h1>page not found</h1>");
+  }
+});
+server.listen(8000, "127.0.0.1", () => {
+  console.log("connection made port 8000 ");
+});
